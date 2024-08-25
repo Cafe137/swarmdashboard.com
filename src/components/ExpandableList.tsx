@@ -38,13 +38,24 @@ interface Props {
   info?: ReactNode
   level?: 0 | 1 | 2
   defaultOpen?: boolean
+  onOpen?: () => void
 }
 
-export default function ExpandableList({ children, label, level, defaultOpen, info }: Props): ReactElement | null {
+export default function ExpandableList({
+  children,
+  label,
+  level,
+  defaultOpen,
+  info,
+  onOpen,
+}: Props): ReactElement | null {
   const classes = useStyles()
   const [open, setOpen] = useState<boolean>(Boolean(defaultOpen))
 
   const handleClick = () => {
+    if (!open) {
+      onOpen && onOpen()
+    }
     setOpen(!open)
   }
 

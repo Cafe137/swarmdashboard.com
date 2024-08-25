@@ -13,7 +13,7 @@ export function ChainSync() {
         return
       }
 
-      beeApi.getChainState().then(setChainState).catch(console.error) // eslint-disable-line
+      beeApi.getChainState().then(setChainState).catch(console.error)
     }, 3_000)
 
     return () => clearInterval(interval)

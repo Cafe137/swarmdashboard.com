@@ -42,7 +42,7 @@ export function AccountStamps(): ReactElement {
     start()
 
     return () => stop()
-  }, [status]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [status])
 
   if (status.all === CheckState.ERROR) return <TroubleshootConnectionCard />
 

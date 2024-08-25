@@ -16,7 +16,7 @@ export function WalletInfoCard() {
 
   if (error) {
     balanceText = 'Could not load...'
-    console.error(error) // eslint-disable-line
+    console.error(error)
   } else if (balance) {
     balanceText = `${balance.bzz.toSignificantDigits(4)} xBZZ | ${balance.dai.toSignificantDigits(4)} xDAI`
   }

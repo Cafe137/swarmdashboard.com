@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-import { createContext, ReactChild, ReactElement, useState, useEffect } from 'react'
+import { createContext, ReactChild, ReactElement, useEffect, useState } from 'react'
+import { PREVIEW_DIMENSIONS } from '../constants'
 import { getMetadata } from '../utils/file'
 import { resize } from '../utils/image'
-import { PREVIEW_DIMENSIONS } from '../constants'
 
 export type UploadOrigin = { origin: 'UPLOAD' | 'FEED'; uuid?: string }
 
@@ -61,7 +59,7 @@ export function Provider({ children }: Props): ReactElement {
         URL.revokeObjectURL(previewUri)
       }
     }
-  }, [files]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [files])
 
   return (
     <Context.Provider value={{ files, setFiles, uploadOrigin, setUploadOrigin, metadata, previewUri, previewBlob }}>

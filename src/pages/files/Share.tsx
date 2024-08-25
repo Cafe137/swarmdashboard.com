@@ -15,15 +15,15 @@ import { determineHistoryName, HISTORY_KEYS, putHistory } from '../../utils/loca
 import { ManifestJs } from '../../utils/manifest'
 import { AssetPreview } from './AssetPreview'
 import { AssetSummary } from './AssetSummary'
-import { DownloadActionBar } from './DownloadActionBar'
 import { AssetSyncing } from './AssetSyncing'
+import { DownloadActionBar } from './DownloadActionBar'
 
 export function Share(): ReactElement {
   const { apiUrl, beeApi } = useContext(SettingsContext)
   const { status } = useContext(BeeContext)
 
   const { hash } = useParams()
-  const reference = hash! // eslint-disable-line
+  const reference = hash!
 
   const navigate = useNavigate()
   const { enqueueSnackbar } = useSnackbar()
@@ -75,7 +75,7 @@ export function Share(): ReactElement {
       const mtdt = await beeApi.downloadFile(reference, META_FILE_NAME)
       const remoteMetadata = mtdt.data.text()
       metadata = { ...metadata, ...(JSON.parse(remoteMetadata) as Metadata) }
-    } catch (e) {} // eslint-disable-line no-empty
+    } catch (e) {}
 
     if (previewFile) {
       setPreview(`${apiUrl}/bzz/${reference}/${PREVIEW_FILE_NAME}`)
@@ -107,7 +107,6 @@ export function Share(): ReactElement {
     prepare().finally(() => {
       setLoading(false)
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reference])
 
   async function onDownload() {

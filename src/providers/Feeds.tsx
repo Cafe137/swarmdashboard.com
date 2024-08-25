@@ -18,7 +18,7 @@ interface ContextInterface {
 
 const initialValues: ContextInterface = {
   identities: [],
-  setIdentities: () => {}, // eslint-disable-line
+  setIdentities: () => {},
 }
 
 export const Context = createContext<ContextInterface>(initialValues)
@@ -37,7 +37,7 @@ export function Provider({ children }: Props): ReactElement {
     } catch {
       setIdentities([])
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
 
   return <Context.Provider value={{ identities, setIdentities }}>{children}</Context.Provider>
 }

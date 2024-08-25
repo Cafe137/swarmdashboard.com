@@ -15,7 +15,7 @@ interface ContextInterface {
 
 const initialValues: ContextInterface = {
   giftWallets: [],
-  addGiftWallet: () => {}, // eslint-disable-line
+  addGiftWallet: () => {},
 }
 
 export const Context = createContext<ContextInterface>(initialValues)

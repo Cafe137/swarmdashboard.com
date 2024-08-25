@@ -59,7 +59,6 @@ export function Swap({ header }: Props): ReactElement {
 
   // Fetch current price of BZZ
   useEffect(() => {
-    // eslint-disable-next-line no-console
     getBzzPriceAsDai(desktopUrl).then(setPrice).catch(console.error)
   }, [desktopUrl])
 
@@ -130,7 +129,7 @@ export function Swap({ header }: Props): ReactElement {
 
       navigate(ROUTES.RESTART_LIGHT)
     } catch (error) {
-      console.error(error) // eslint-disable-line
+      console.error(error)
       enqueueSnackbar(`Failed to upgrade: ${error}`, { variant: 'error' })
     }
   }
@@ -139,7 +138,6 @@ export function Swap({ header }: Props): ReactElement {
     try {
       await performSwap(desktopUrl, daiToSwap.toString)
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error(error)
       throw error
     }
@@ -193,12 +191,12 @@ export function Swap({ header }: Props): ReactElement {
         enqueueSnackbar(error.snackbarMessage, { variant: 'error' })
 
         if (error.originalError) {
-          console.error(error.originalError) // eslint-disable-line
+          console.error(error.originalError)
         }
       } else {
         // we have an unexpected error
         enqueueSnackbar(`${GENERIC_SWAP_FAILED_ERROR_MESSAGE} ${error}`, { variant: 'error' })
-        console.error(error) // eslint-disable-line
+        console.error(error)
       }
     } finally {
       balance?.refresh()

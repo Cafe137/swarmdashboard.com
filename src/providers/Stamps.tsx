@@ -22,8 +22,8 @@ const initialValues: ContextInterface = {
   error: null,
   isLoading: false,
   lastUpdate: null,
-  start: () => {}, // eslint-disable-line
-  stop: () => {}, // eslint-disable-line
+  start: () => {},
+  stop: () => {},
   refresh: () => Promise.reject(),
 }
 
@@ -91,7 +91,7 @@ export function Provider({ children }: Props): ReactElement {
 
       return () => clearInterval(interval)
     }
-  }, [frequency]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [frequency])
 
   return (
     <Context.Provider value={{ stamps, error, isLoading, lastUpdate, start, stop, refresh }}>

@@ -56,7 +56,7 @@ export default function Index(): ReactElement {
       await createGiftWallet(desktopUrl, wallet.address)
       enqueueSnackbar('Succesfully funded gift wallet', { variant: 'success' })
     } catch (error) {
-      console.error(error) // eslint-disable-line
+      console.error(error)
       enqueueSnackbar(`Failed to fund gift wallet: ${error}`, { variant: 'error' })
     } finally {
       setLoading(false)

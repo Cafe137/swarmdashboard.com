@@ -34,7 +34,6 @@ export default function UpdateFeed(): ReactElement {
 
   useEffect(() => {
     refresh()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   function onFeedChange(event: SelectEvent) {
@@ -74,7 +73,7 @@ export default function UpdateFeed(): ReactElement {
     }
 
     try {
-      await updateFeed(beeApi, identity, hash!, selectedStamp, password as string) // eslint-disable-line
+      await updateFeed(beeApi, identity, hash!, selectedStamp, password as string)
       persistIdentity(identities, identity)
       setIdentities([...identities])
       navigate(ROUTES.ACCOUNT_FEEDS_VIEW.replace(':uuid', identity.uuid))

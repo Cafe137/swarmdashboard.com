@@ -1,8 +1,8 @@
-import { Context as SettingsContext } from '../../providers/Settings'
 import { Box } from '@material-ui/core'
 import { ReactElement, useContext, useEffect, useRef, useState } from 'react'
 import { DocumentationText } from '../../components/DocumentationText'
 import { LinearProgressWithLabel } from '../../components/ProgressBar'
+import { Context as SettingsContext } from '../../providers/Settings'
 
 interface Props {
   reference: string
@@ -37,7 +37,6 @@ export function AssetSyncing({ reference }: Props): ReactElement {
         clearInterval(syncTimer.current)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reference])
 
   useEffect(() => {

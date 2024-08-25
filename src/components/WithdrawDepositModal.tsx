@@ -1,15 +1,15 @@
-import { ReactElement, ReactNode, useState } from 'react'
 import Button from '@material-ui/core/Button'
-import Input from '@material-ui/core/Input'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import FormHelperText from '@material-ui/core/FormHelperText'
-import { Token } from '../models/Token'
+import Input from '@material-ui/core/Input'
 import type { BigNumber } from 'bignumber.js'
 import { useSnackbar } from 'notistack'
+import { ReactElement, ReactNode, useState } from 'react'
+import { Token } from '../models/Token'
 
 interface Props {
   successMessage: string
@@ -55,7 +55,7 @@ export default function WithdrawDepositModal({
       setOpen(false)
       enqueueSnackbar(`${successMessage} Transaction ${transactionHash}`, { variant: 'success' })
     } catch (e) {
-      console.error(e) // eslint-disable-line
+      console.error(e)
       enqueueSnackbar(`${errorMessage} Error: ${(e as Error).message}`, { variant: 'error' })
     }
   }

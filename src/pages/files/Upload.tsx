@@ -44,7 +44,7 @@ export function Upload(): ReactElement {
 
   useEffect(() => {
     refresh()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
 
   if (status.all === CheckState.ERROR) return <TroubleshootConnectionCard />
 
@@ -143,7 +143,7 @@ export function Upload(): ReactElement {
         }
       })
       .catch(e => {
-        console.error(e) // eslint-disable-line
+        console.error(e)
         enqueueSnackbar(`Error uploading: ${e.message}`, { variant: 'error' })
         setUploading(false)
       })

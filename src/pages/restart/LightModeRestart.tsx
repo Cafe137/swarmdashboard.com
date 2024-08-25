@@ -27,7 +27,7 @@ export default function LightModeRestart(): ReactElement {
             navigate(ROUTES.INFO)
           }
         })
-        .catch(console.error) // eslint-disable-line
+        .catch(console.error)
     }, 3_000)
 
     return () => clearInterval(interval)

@@ -2,9 +2,8 @@ import { Box, Typography } from '@material-ui/core'
 import { Wallet } from 'ethers'
 import { useSnackbar } from 'notistack'
 import { ReactElement, useContext, useState } from 'react'
-import ArrowRight from 'remixicon-react/ArrowRightLineIcon'
 import { useNavigate } from 'react-router'
-import { Context as SettingsContext } from '../../providers/Settings'
+import ArrowRight from 'remixicon-react/ArrowRightLineIcon'
 import { HistoryHeader } from '../../components/HistoryHeader'
 import { ProgressIndicator } from '../../components/ProgressIndicator'
 import { SwarmButton } from '../../components/SwarmButton'
@@ -12,6 +11,7 @@ import { SwarmDivider } from '../../components/SwarmDivider'
 import { SwarmTextInput } from '../../components/SwarmTextInput'
 import { BzzToken } from '../../models/BzzToken'
 import { DaiToken } from '../../models/DaiToken'
+import { Context as SettingsContext } from '../../providers/Settings'
 import { ROUTES } from '../../routes'
 import { Rpc } from '../../utils/rpc'
 
@@ -38,7 +38,7 @@ export function GiftCardTopUpIndex(): ReactElement {
       enqueueSnackbar('Successfully verified gift wallet', { variant: 'success' })
       navigate(ROUTES.TOP_UP_GIFT_CODE_FUND.replace(':privateKeyString', giftCode))
     } catch (error) {
-      console.error(error) // eslint-disable-line
+      console.error(error)
       enqueueSnackbar(`Gift wallet could not be verified: ${error}`, { variant: 'error' })
     } finally {
       setLoading(false)

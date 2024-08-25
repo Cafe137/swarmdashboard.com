@@ -101,7 +101,7 @@ export function PostageStampStandardCreation({ onFinished }: Props): ReactElemen
       await refresh()
       onFinished()
     } catch (e) {
-      console.error(e) // eslint-disable-line
+      console.error(e)
       enqueueSnackbar(`Error: ${(e as Error).message}`, { variant: 'error' })
     }
     setSubmitting(false)

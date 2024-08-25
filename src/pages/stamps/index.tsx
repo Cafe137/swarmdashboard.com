@@ -1,11 +1,11 @@
 import { CircularProgress, Container } from '@material-ui/core'
 import { createStyles, makeStyles } from '@material-ui/core/styles'
 import { ReactElement, useContext, useEffect } from 'react'
-import PlusSquare from 'remixicon-react/AddBoxLineIcon'
 import { useNavigate } from 'react-router'
+import PlusSquare from 'remixicon-react/AddBoxLineIcon'
 import { SwarmButton } from '../../components/SwarmButton'
 import TroubleshootConnectionCard from '../../components/TroubleshootConnectionCard'
-import { CheckState, Context as BeeContext } from '../../providers/Bee'
+import { Context as BeeContext, CheckState } from '../../providers/Bee'
 import { Context as StampsContext } from '../../providers/Stamps'
 import { ROUTES } from '../../routes'
 import StampsTable from './StampsTable'
@@ -39,7 +39,7 @@ export default function Stamp(): ReactElement {
     start()
 
     return () => stop()
-  }, [status]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [status])
 
   if (status.all === CheckState.ERROR) return <TroubleshootConnectionCard />
 

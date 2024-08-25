@@ -44,7 +44,7 @@ export default function SettingsPage(): ReactElement {
 
       await refresh()
     } catch (e) {
-      console.error(e) //eslint-disable-line
+      console.error(e)
       enqueueSnackbar(`Failed to change RPC endpoint. ${e}`, { variant: 'error' })
     }
   }

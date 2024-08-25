@@ -29,12 +29,12 @@ interface ContextInterface {
 const initialValues: ContextInterface = {
   beeApi: null,
   apiUrl: DEFAULT_BEE_API_HOST,
-  setApiUrl: () => {}, // eslint-disable-line
+  setApiUrl: () => {},
   lockedApiSettings: false,
   isDesktop: false,
   desktopApiKey: '',
   desktopUrl: window.location.origin,
-  setAndPersistJsonRpcProvider: async () => {}, // eslint-disable-line
+  setAndPersistJsonRpcProvider: async () => {},
   rpcProviderUrl: '',
   rpcProvider: null,
   cors: null,

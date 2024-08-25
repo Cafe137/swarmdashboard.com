@@ -90,8 +90,8 @@ const initialValues: ContextInterface = {
   latestBeeRelease: null,
   isLoading: true,
   lastUpdate: null,
-  start: () => {}, // eslint-disable-line
-  stop: () => {}, // eslint-disable-line
+  start: () => {},
+  stop: () => {},
   refresh: () => Promise.reject(),
 }
 
@@ -195,7 +195,7 @@ export function Provider({ children }: Props): ReactElement {
     setApiHealth(false)
 
     if (beeApi !== null) refresh()
-  }, [beeApi]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [beeApi])
 
   useEffect(() => {
     setIsLoading(true)
@@ -213,7 +213,7 @@ export function Provider({ children }: Props): ReactElement {
     if (beeApi !== null) {
       refresh()
     }
-  }, [beeApi]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [beeApi])
 
   const refresh = async () => {
     // Don't want to refresh when already refreshing
@@ -378,7 +378,7 @@ export function Provider({ children }: Props): ReactElement {
 
       return () => clearInterval(interval)
     }
-  }, [frequency, beeApi]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [frequency, beeApi])
 
   return (
     <Context.Provider
