@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { CafeReactFsCreate } from './CafeReactFsCreate'
 import { CafeReactFsItem } from './CafeReactFsItem'
 import { CafeReactFsLoading } from './CafeReactFsLoading'
 import { CafeReactFsPath } from './CafeReactFsPath'
@@ -11,12 +12,25 @@ interface Props {
     download: (path: string) => Promise<void>
     list: (path: string) => Promise<FsItem[]>
     onUpload: (path: string) => Promise<void>
+    onCreateDirectory: (path: string) => Promise<void>
+    onDeleteFile: (path: string) => Promise<void>
+    onDeleteDirectory: (path: string) => Promise<void>
     reloader: number
     backgroundColor?: string
     rootAlias?: string
 }
 
-export function CafeReactFs({ download, list, onUpload, reloader, backgroundColor, rootAlias }: Props) {
+export function CafeReactFs({
+    download,
+    list,
+    onUpload,
+    onCreateDirectory,
+    onDeleteFile,
+    onDeleteDirectory,
+    reloader,
+    backgroundColor,
+    rootAlias
+}: Props) {
     const [path, setPath] = useState('/')
     const [items, setItems] = useState<FsItem[]>([])
     const [loading, setLoading] = useState(false)
@@ -75,15 +89,23 @@ export function CafeReactFs({ download, list, onUpload, reloader, backgroundColo
                             path={path}
                             item={item}
                             enterDirectory={enterDirectory}
+                            onDeleteFile={onDeleteFile}
+                            onDeleteDirectory={onDeleteDirectory}
                             download={download}
                             backgroundColor={backgroundColor ?? DEFAULT_BACKGROUND_COLOR}
                         />
                     ))}
                 {!loading && (
-                    <CafeReactFsUpload
-                        onUpload={() => onUpload(path)}
-                        backgroundColor={backgroundColor ?? DEFAULT_BACKGROUND_COLOR}
-                    />
+                    <>
+                        <CafeReactFsUpload
+                            onUpload={() => onUpload(path)}
+                            backgroundColor={backgroundColor ?? DEFAULT_BACKGROUND_COLOR}
+                        />
+                        <CafeReactFsCreate
+                            onCreateDirectory={() => onCreateDirectory(path)}
+                            backgroundColor={backgroundColor ?? DEFAULT_BACKGROUND_COLOR}
+                        />
+                    </>
                 )}
             </div>
         </div>

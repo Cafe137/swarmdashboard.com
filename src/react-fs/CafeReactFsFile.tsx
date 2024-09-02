@@ -1,34 +1,51 @@
 import { Strings } from 'cafe-utility'
+import { useState } from 'react'
+import { CafeReactFsDelete } from './CafeReactFsDelete'
+import { CafeReactFsLoading } from './CafeReactFsLoading'
 import { CafeReactFsName } from './CafeReactFsName'
 import { VirtualFile } from './CafeReactType'
 
 interface Props {
-  path: string
-  file: VirtualFile
-  download: (path: string) => Promise<void>
-  backgroundColor: string
+    path: string
+    file: VirtualFile
+    download: (path: string) => Promise<void>
+    deleteFile: (path: string) => Promise<void>
+    backgroundColor: string
 }
 
-export function CafeReactFsFile({ path, file, download, backgroundColor }: Props) {
-  return (
-    <div
-      onClick={() => download(Strings.joinUrl(path, file.name))}
-      style={{
-        width: '80px',
-        height: '80px',
-        position: 'relative',
-        background: backgroundColor,
-        borderRadius: '2px',
-        cursor: 'pointer',
-      }}
-    >
-      <img
-        src="data:image/svg+xml,%3Csvg%20clip-rule%3D%22evenodd%22%20fill-rule%3D%22evenodd%22%20height%3D%22512%22%20stroke-linejoin%3D%22round%22%20stroke-miterlimit%3D%222%22%20viewBox%3D%220%200%2033%2032%22%20width%3D%22512%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22m29.102%207.91c-.045-.084-.1-.165-.167-.239l-.02-.023-.021-.021-.01-.011s-7-7-7-7l-.023-.022-.024-.022-.008-.007c-.074-.067-.155-.122-.239-.167-.176-.095-.377-.148-.59-.148h-16c-.69%200-1.25.56-1.25%201.25v29c0%20.69.56%201.25%201.25%201.25h23c.69%200%201.25-.56%201.25-1.25v-22c0-.213-.053-.414-.148-.59zm-9.352.59c0%20.69.56%201.25%201.25%201.25h5.75v19.5h-20.5v-26.5h13.5zm2.5-1.25h2.732l-2.732-2.732z%22%2F%3E%3C%2Fsvg%3E"
-        alt="File"
-        style={{ width: '32px', height: '32px', position: 'absolute', left: '24px', top: '19px' }}
-      />
+export function CafeReactFsFile({ path, file, download, deleteFile, backgroundColor }: Props) {
+    const [hovered, setHovered] = useState(false)
+    const [loading, setLoading] = useState(false)
 
-      <CafeReactFsName name={file.name} />
-    </div>
-  )
+    if (loading) {
+        return <CafeReactFsLoading backgroundColor={backgroundColor} />
+    }
+
+    async function proxyDelete() {
+        setLoading(true)
+        return deleteFile(Strings.joinUrl(path, file.name)).finally(() => setLoading(false))
+    }
+
+    return (
+        <div
+            onClick={() => download(Strings.joinUrl(path, file.name))}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            style={{
+                width: '80px',
+                height: '80px',
+                position: 'relative',
+                background: backgroundColor,
+                borderRadius: '2px',
+                cursor: 'pointer'
+            }}
+        >
+            {hovered && <CafeReactFsDelete onDelete={proxyDelete} />}
+            <img
+                style={{ width: '64px', height: '64px', position: 'absolute', left: '8px', top: 0 }}
+                src="data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20width%3D%22512%22%20height%3D%22512%22%20viewBox%3D%220%200%20512%20512%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M%20156%20131%20l%20150%200%20l%2050%2050%20l%200%20200%20l%20-200%200%20z%22%20stroke%3D%22%231F2D3D%22%20stroke-width%3D%2220%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20%20%2F%3E%3Cpath%20d%3D%22M%20306%20131%20l%200%2050%20l%2050%200%22%20stroke%3D%22%231F2D3D%22%20stroke-width%3D%2220%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20%20%2F%3E%3C%2Fsvg%3E"
+            />
+            <CafeReactFsName name={file.name} />
+        </div>
+    )
 }

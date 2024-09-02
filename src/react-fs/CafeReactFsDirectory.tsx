@@ -1,13 +1,29 @@
+import { useState } from 'react'
+import { CafeReactFsDelete } from './CafeReactFsDelete'
+import { CafeReactFsLoading } from './CafeReactFsLoading'
 import { CafeReactFsName } from './CafeReactFsName'
 import { VirtualDirectory } from './CafeReactType'
 
 interface Props {
     directory: VirtualDirectory
     enterDirectory: (name: string) => void
-    backgroundColor?: string
+    deleteDirectory: (name: string) => Promise<void>
+    backgroundColor: string
 }
 
-export function CafeReactFsDirectory({ directory, enterDirectory, backgroundColor }: Props) {
+export function CafeReactFsDirectory({ directory, enterDirectory, deleteDirectory, backgroundColor }: Props) {
+    const [hovered, setHovered] = useState(false)
+    const [loading, setLoading] = useState(false)
+
+    async function proxyDelete() {
+        setLoading(true)
+        return deleteDirectory(directory.name).finally(() => setLoading(false))
+    }
+
+    if (loading) {
+        return <CafeReactFsLoading backgroundColor={backgroundColor} />
+    }
+
     return (
         <div
             style={{
@@ -19,11 +35,13 @@ export function CafeReactFsDirectory({ directory, enterDirectory, backgroundColo
                 cursor: 'pointer'
             }}
             onClick={() => enterDirectory(directory.name)}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
         >
+            {hovered && <CafeReactFsDelete onDelete={proxyDelete} />}
             <img
-                src="data:image/svg+xml,%3Csvg%20clip-rule%3D%22evenodd%22%20fill-rule%3D%22evenodd%22%20height%3D%22512%22%20stroke-linejoin%3D%22round%22%20stroke-miterlimit%3D%222%22%20viewBox%3D%220%200%20138%20134%22%20width%3D%22512%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22m71.969%2030.208-3.986-7.971c-2.666-5.332-8.111-8.695-14.066-8.695h-32.98c-8.683%200-15.729%207.039-15.729%2015.729v74.792c0%204.173%201.657%208.172%204.609%2011.124%202.947%202.947%206.946%204.605%2011.12%204.605h95.63c8.684%200%2015.725-7.039%2015.725-15.729v-58.125c0-8.691-7.041-15.73-15.725-15.73zm-7.877%207.538c.882%201.764%202.685%202.879%204.658%202.879h47.817c2.932%200%205.308%202.378%205.308%205.313v58.125c0%202.934-2.376%205.312-5.308%205.312h-95.63c-1.409%200-2.759-.559-3.754-1.554-.998-.997-1.558-2.348-1.558-3.758v-74.792c0-2.935%202.38-5.313%205.312-5.313h32.98c2.011%200%203.849%201.137%204.75%202.938%202.404%204.808%205.425%2010.85%205.425%2010.85z%22%2F%3E%3C%2Fsvg%3E"
-                alt="Folder"
-                style={{ width: '40px', height: '40px', position: 'absolute', left: '20px', top: '15px' }}
+                src="data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20width%3D%22512%22%20height%3D%22512%22%20viewBox%3D%220%200%20512%20512%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M%20106%20131%20l%20100%200%20l%2025%2025%20l%20175%200%20l%200%20200%20l%20-300%200%20z%22%20stroke%3D%22%231F2D3D%22%20stroke-width%3D%2220%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20%20%2F%3E%3C%2Fsvg%3E"
+                style={{ width: '64px', height: '64px', position: 'absolute', left: '8px', top: 0 }}
             />
             <CafeReactFsName name={directory.name} />
         </div>
