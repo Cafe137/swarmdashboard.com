@@ -97,7 +97,7 @@ export default function FDP(): ReactElement {
     return (
         <Vertical gap={32} full left>
             <Horizontal between>
-                <Typography variant="h1">FDP Storage</Typography>
+                <Typography variant="h1">Files</Typography>
                 {loggedIn && (
                     <SwarmButton onClick={onCreatePod} iconType={PlusCircle}>
                         Create Pod
@@ -107,7 +107,10 @@ export default function FDP(): ReactElement {
             {!loggedIn && <FdpLogin fdp={fdp} onSuccessfulLogin={onSuccessfulLogin} />}
             {loggedIn && <FdpPods fdp={fdp} pods={pods} loadingPods={loadingPods || creatingPod} />}
             {loggedIn && !loadingPods && !creatingPod && pods.length === 0 && (
-                <Typography>Start by creating a pod</Typography>
+                <Typography>
+                    <strong>You do not have any pods yet.</strong> Get started by clicking the Create Pod button on the
+                    top right.
+                </Typography>
             )}
         </Vertical>
     )
