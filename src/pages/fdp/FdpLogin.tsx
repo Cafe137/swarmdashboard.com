@@ -17,11 +17,16 @@ export function FdpLogin({ fdp, onSuccessfulLogin }: Props) {
     const [username, setUsername] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [remember, setRemember] = useState<boolean>(false)
+    const [sepolia, setSepolia] = useState<string>('https://sepolia.drpc.org')
     const { enqueueSnackbar } = useSnackbar()
 
     const inputStyle = { background: 'white', padding: '2px 8px', width: '100%' }
 
     useEffect(() => {
+        const storedSepolia = localStorage.getItem('sepolia')
+        if (storedSepolia) {
+            setSepolia(storedSepolia)
+        }
         const fdpCredentials = localStorage.getItem('fdpCredentials')
         if (fdpCredentials) {
             const { username, password } = JSON.parse(fdpCredentials)
@@ -32,6 +37,7 @@ export function FdpLogin({ fdp, onSuccessfulLogin }: Props) {
     }, [])
 
     async function onLogin() {
+        localStorage.setItem('sepolia', sepolia)
         if (remember) {
             localStorage.setItem('fdpCredentials', JSON.stringify({ username, password }))
         } else {
@@ -63,6 +69,10 @@ export function FdpLogin({ fdp, onSuccessfulLogin }: Props) {
             }}
         >
             <Vertical gap={16} full>
+                <Vertical gap={8} left full>
+                    <Typography variant="body2">Sepolia JSON RPC</Typography>
+                    <InputBase value={sepolia} onChange={e => setSepolia(e.target.value)} style={inputStyle} />
+                </Vertical>
                 <Vertical gap={8} left full>
                     <Typography variant="body2">Username</Typography>
                     <InputBase value={username} onChange={e => setUsername(e.target.value)} style={inputStyle} />

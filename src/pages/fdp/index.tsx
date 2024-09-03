@@ -13,6 +13,7 @@ import { Vertical } from './Vertical'
 
 async function makeFdp(): Promise<FdpStorage | null> {
     const bee = new Bee('http://localhost:1633')
+    const sepolia = localStorage.getItem('sepolia') ?? 'https://sepolia.drpc.org'
     const postageBatches = await bee.getAllPostageBatch()
     const usableBatches = postageBatches.filter(batch => batch.usable)
     const highestCapacityBatch = usableBatches.reduce((a, b) => (a.depth > b.depth ? a : b))
@@ -21,7 +22,7 @@ async function makeFdp(): Promise<FdpStorage | null> {
     }
     return new FdpStorage('http://localhost:1633', highestCapacityBatch.batchID, {
         ensOptions: {
-            rpcUrl: 'https://sepolia.drpc.org',
+            rpcUrl: sepolia,
             contractAddresses: {
                 ensRegistry: '0x42a96D45d787685ac4b36292d218B106Fb39be7F',
                 fdsRegistrar: '0xFBF00389140C00384d88d458239833E3231a7414',
@@ -33,7 +34,7 @@ async function makeFdp(): Promise<FdpStorage | null> {
             performChecks: true
         },
         providerOptions: {
-            url: 'https://sepolia.drpc.org'
+            url: sepolia
         },
         ensDomain: 'fds'
     })
