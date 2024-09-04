@@ -57,6 +57,9 @@ export function FdpPod({ fdp, name }: Props) {
                 await fdp.directory.create(name, Strings.joinUrl(path, newDirectoryName))
                 reload()
             }}
+            onSync={async () => {
+                setReloader(reloader + 1)
+            }}
             download={async (path: string) => {
                 const data = await fdp.file.downloadData(name, path)
                 const url = URL.createObjectURL(new Blob([data]))
