@@ -2,10 +2,13 @@ import { Bee } from '@ethersphere/bee-js'
 import { FdpStorage } from '@fairdatasociety/fdp-storage'
 import { Pod } from '@fairdatasociety/fdp-storage/dist/pod/types'
 import { CircularProgress, Typography } from '@material-ui/core'
+import { Strings } from 'cafe-utility'
 import { useSnackbar } from 'notistack'
 import { ReactElement, useEffect, useState } from 'react'
+import ImportIcon from 'remixicon-react/AddBoxLineIcon'
 import PlusCircle from 'remixicon-react/AddCircleLineIcon'
 import { SwarmButton } from '../../components/SwarmButton'
+import { ManifestJs } from '../../utils/manifest'
 import { FdpLogin } from './FdpLogin'
 import { FdpPods } from './FdpPods'
 import { Horizontal } from './Horizontal'
@@ -91,6 +94,32 @@ export default function FDP(): ReactElement {
         }
     }
 
+    async function onImportPod() {
+        if (!fdp) {
+            return
+        }
+        if (loadingPods || creatingPod) {
+            enqueueSnackbar('Please wait until the pods are loaded', { variant: 'info' })
+            return
+        }
+        const name = prompt('Enter a name for the new pod')
+        const importHash = prompt('Enter the Swarm reference')
+        if (!name || !importHash) {
+            return
+        }
+        setCreatingPod(true)
+        const bee = new Bee('http://localhost:1633')
+        const manifestJs = new ManifestJs(bee)
+        const entries = await manifestJs.getHashes(importHash)
+        await fdp.personalStorage.create(name)
+        for (const [path, hash] of Object.entries(entries)) {
+            await fdp.file.uploadData(name, Strings.joinUrl('/', path), await bee.downloadData(hash))
+        }
+        const pods = await fdp.personalStorage.list()
+        setPods(pods.pods)
+        setCreatingPod(false)
+    }
+
     if (!fdp) {
         return <CircularProgress />
     }
@@ -100,17 +129,22 @@ export default function FDP(): ReactElement {
             <Horizontal between>
                 <Typography variant="h1">Files</Typography>
                 {loggedIn && (
-                    <SwarmButton onClick={onCreatePod} iconType={PlusCircle}>
-                        Create Pod
-                    </SwarmButton>
+                    <Horizontal gap={4}>
+                        <SwarmButton onClick={onCreatePod} iconType={PlusCircle}>
+                            Create
+                        </SwarmButton>
+                        <SwarmButton onClick={onImportPod} iconType={ImportIcon}>
+                            Import
+                        </SwarmButton>
+                    </Horizontal>
                 )}
             </Horizontal>
             {!loggedIn && <FdpLogin fdp={fdp} onSuccessfulLogin={onSuccessfulLogin} />}
             {loggedIn && <FdpPods fdp={fdp} pods={pods} loadingPods={loadingPods || creatingPod} />}
             {loggedIn && !loadingPods && !creatingPod && pods.length === 0 && (
                 <Typography>
-                    <strong>You do not have any pods yet.</strong> Get started by clicking the Create Pod button on the
-                    top right.
+                    <strong>You do not have any pods yet.</strong> Get started by clicking the Create or Import button
+                    on the top right.
                 </Typography>
             )}
         </Vertical>
